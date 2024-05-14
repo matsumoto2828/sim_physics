@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>等速直線運動のシミュレーション</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  #container {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    overflow: hidden;
+  }
+  #object {
+    width: 50px;
+    height: 50px;
+    background-color: #4CAF50;
+    position: absolute;
+    left: 0;
+    top: 175px;
+  }
+  .arrow {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 20px solid #FF5722;
+    position: absolute;
+    top: 160px;
+    display: none;
+  }
+  #distanceLabel {
+    position: absolute;
+    top: 200px;
+    color: #000;
+    display: none;
+  }
+  #formula {
+    margin-top: 10px;
+  }
+  #timer {
+    font-size: 24px;
+    color: #555;
+  }
+  input, button {
+    margin: 5px 0;
+    padding: 8px;
+    font-size: 16px;
+  }
+</style>
+</head>
+<body>
+<h1>等速直線運動のシミュレーション</h1>
+<label for="velocity">速度 (m/s): </label>
+<input type="number" id="velocity" readonly><br>
+<label for="distance">移動距離 (m): </label>
+<input type="number" id="distance" value="100"><br>
+<label for="time">時間 (s): </label>
+<input type="number" id="time" value="10"><br>
+<button onclick="calculateVelocity()">速度を計算</button><br>
+<label for="scale">倍率: </label>
+<input type="range" id="scale" min="0.5" max="2.0" step="0.1" value="1.0">
+<span id="scaleOutput">1.0x</span><br>
+<label for="meterStep">1mステップシミュレーション: </label>
+<input type="checkbox" id="meterStep"><br>
+<button onclick="startAnimation()">実行</button>
+<button onclick="stopAnimation()">停止</button>
+<button onclick="resetAnimation()">リセット</button>
+<div id="container">
+  <div id="object"></div>
+  <div id="arrow" class="arrow"></div>
+  <div id="distanceLabel"></div>
+</div>
+<div id="info"></div>
+<div id="formula">速さ (m/s) = 移動距離 (m) / 経過時間 (s)</div>
+<div id="timer">経過時間: 0 s</div>
+<script>
+let animationRequest;
+let timerInterval;
+
+
+function calculateVelocity() {
+  const distance = parseFloat(document.getElementById('distance').value);
+  const time = parseFloat(document.getElementById('time').value);
+  const velocity = distance / time;
+  document.getElementById('velocity').value = velocity.toFixed(2);
+}
+
+function startAnimation() {
+  const velocity = document.getElementById('velocity').value;
+  const distance = document.getElementById('distance').value;
+  const time = document.getElementById('time').value;
+  const scale = document.getElementById('scale').value;
+  const meterStep = document.getElementById('meterStep').checked;
+  const maxDistance = meterStep ? Math.min(800, Math.floor(distance * scale)) : Math.min(800, distance * scale);
+
+  const object = document.getElementById('object');
+  const arrow = document.getElementById('arrow');
+  const distanceLabel = document.getElementById('distanceLabel');
+  const info = document.getElementById('info');
+  const timer = document.getElementById('timer');
+
+  const animationDuration = meterStep ? (time * 1000 / scale) / distance : time * 1000 / scale;
+
+  object.style.transition = `left ${animationDuration}ms linear`;
+  object.style.left = `${maxDistance}px`;
+
+  arrow.style.display = 'block';
+  arrow.style.left = `${maxDistance - 20}px`;
+  distanceLabel.innerText = `${distance} m`;
+  distanceLabel.style.left = `${maxDistance}px`;
+  distanceLabel.style.display = 'block';
+  info.textContent = `速度: ${velocity} m/s, 移動距離: ${distance} m, 経過時間: ${time} s, 倍率: ${scale}x`;
+
+  let elapsed = 0;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    elapsed += 1000/ scale;
+    timer.textContent = `経過時間: ${(elapsed / 1000).toFixed(2)} s`;
+    if (elapsed >= animationDuration) clearInterval(timerInterval);
+  }, 1000 / scale);
+
+  animationRequest = setTimeout(() => {
+    object.style.left = `${maxDistance}px`;
+    clearInterval(timerInterval);
+  }, animationDuration);
+}
+
+function stopAnimation() {
+  const object = document.getElementById('object');
+  const computedStyle = window.getComputedStyle(object);
+  const currentLeft = computedStyle.left;
+  object.style.left = currentLeft;
+  object.style.transition = 'none';
+  clearTimeout(animationRequest);
+  clearInterval(timerInterval);
+}
+
+function resetAnimation() {
+  const object = document.getElementById('object');
+  const arrow = document.getElementById('arrow');
+  const distanceLabel = document.getElementById('distanceLabel');
+  const timer = document.getElementById('timer');
+  object.style.transition = 'none';
+  object.style.left = `0px`;
+  arrow.style.display = 'none';
+  distanceLabel.style.display = 'none';
+  timer.textContent = `経過時間: 0 s`;
+  clearInterval(timerInterval);
+}
+
+
+document.getElementById('scale').addEventListener('input', function() {
+  document.getElementById('scaleOutput').textContent = `${this.value}x`;
+});
+
+</script>
+</body>
+</html>
