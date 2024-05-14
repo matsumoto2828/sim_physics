@@ -1,0 +1,113 @@
+/* 基本的なリセットとフォント設定 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* コンテナとシミュレーション領域のスタイル */
+#container {
+    width: 90%;
+    max-width: 800px;
+    height: 400px;
+    margin: 20px auto;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+#object {
+    width: 50px;
+    height: 50px;
+    background-color: #4CAF50;
+    position: absolute;
+    left: 0;
+    top: 175px;
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 20px solid #FF5722;
+    position: absolute;
+    top: 160px;
+    display: none;
+}
+
+#distanceLabel {
+    position: absolute;
+    top: 200px;
+    color: #000;
+    display: none;
+    font-size: 14px;
+}
+
+/* ボタンと入力フィールドのスタイリング */
+input[type="number"], input[type="range"], select, button {
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* フッターのスタイリング */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #e8e8e8;
+    color: #555;
+}
+
+footer a {
+    color: #333;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* ラベルのスタイリング */
+label {
+    display: block;
+    margin: 5px 0;
+}
+
+/* インフォメーションテキスト */
+#info, #timer {
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#scaleOutput {
+    font-weight: bold;
+}
+
+/* 説明テキストのスタイル */
+#helpText {
+    padding: 15px;
+    background-color: #e8e8e8;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
