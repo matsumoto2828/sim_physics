@@ -40,5 +40,23 @@ function startAnimation() {
       clearInterval(timerInterval);
     }, animationDuration);
   }
+  function showHelp(selection) {
+    let helpText = document.getElementById('helpText');
+    switch (selection) {
+      case 'basic':
+        helpText.innerHTML = '<p>移動距離(m)と時間(s)を入力し、速度を計算します<br>実行を押し、シミュレーションが開始します<br>停止ボタンを押すことでシミュレーションを停止できます<br>再度シミュレーションをする場合にはリセットボタンを押してから実行してください</p>';
+        break;
+      case 'advanced':
+        helpText.innerHTML = '<p>倍率。移動距離、時間の倍率を変更することができます。<br>1mステップシュミレータを使うことで1mの移動距離に対応ができます</p>';
+        break;
+      case 'data':
+        helpText.innerHTML = '<p>等速直線運動の式が確認できます<br>実行ボタンを押すと経過時間が測定され、リアルタイムで表示されます</p>';
+        break;
+      default:
+        helpText.innerHTML = '';
+        break;
+    }
+  }
+  
   
   
