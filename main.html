@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>等速直線運動のシミュレーション</title>
+<script src="setting.js"></script>
+<link rel="stylesheet" href="design.css">
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -56,7 +58,17 @@
 </style>
 </head>
 <body>
-<h1>等速直線運動のシミュレーション</h1>
+    
+    <h1>等速直線運動のシミュレーション</h1>
+    <label for="helpMenu">使用方法:</label>
+    <select id="helpMenu" onchange="showHelp(this.value)">
+      <option value="">選択</option>
+      <option value="basic">基本的な使い方</option>
+      <option value="advanced">高度な機能</option>
+      <option value="data">表示</option>
+    </select>
+    <div id="helpText"></div>
+
 <label for="velocity">速度 (m/s): </label>
 <input type="number" id="velocity" readonly><br>
 <label for="distance">移動距離 (m): </label>
@@ -83,6 +95,8 @@
 <script>
 let animationRequest;
 let timerInterval;
+
+
 
 
 function calculateVelocity() {
@@ -162,4 +176,8 @@ document.getElementById('scale').addEventListener('input', function() {
 
 </script>
 </body>
+<footer>
+    <p>ご質問や、追加してほしい機能は<a href="https://forms.gle/yourGoogleFormLink" target="_blank">こちらのフォーム</a>からお願いします。</p>
+  </footer>
+  
 </html>
